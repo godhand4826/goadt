@@ -1,6 +1,8 @@
 package main_test
 
 import (
+	"math"
+	"math/rand"
 	"testing"
 
 	main "goadt"
@@ -350,4 +352,46 @@ func testSet(t *testing.T, set main.Set[int]) {
 	assert.False(t, set.Contains(20), "Expected set not contains 20")
 	assert.Equal(t, 0, set.Size(), "Expected set size to be 0")
 	assert.True(t, set.IsEmpty(), "Expected set to be empty")
+}
+
+// testMinQueue checks if the given queue follows the properties.
+func testMinQueue(t *testing.T, queue main.Queue[int]) {
+	queue.Clear()
+
+	assert.Equal(t, 0, queue.Size(), "Expected queue size to be 0")
+	assert.True(t, queue.IsEmpty(), "Expected queue to be empty")
+
+	queue.Enqueue(0)
+	queue.Enqueue(1)
+	queue.Enqueue(3)
+	queue.Enqueue(4)
+	queue.Enqueue(2)
+	assert.Equal(t, 5, queue.Size(), "Expected queue size to be 5")
+	assert.False(t, queue.IsEmpty(), "Expected queue is not empty")
+
+	for i := 0; i < 5; i++ {
+		assert.Equalf(t, i, queue.Peek(), "Expected peek to be %d", i)
+		value := queue.Dequeue()
+		assert.Equalf(t, value, i, "Expected dequeue to be %d", i)
+	}
+	assert.Equal(t, 0, queue.Size(), "Expected queue size to be 0")
+	assert.True(t, queue.IsEmpty(), "Expected queue to be empty")
+
+	queue.Clear()
+	assert.Panics(t, func() { queue.Peek() }, "Expected peek to panic when queue is empty")
+
+	queue.Clear()
+	const count = 1000
+	for i := 0; i < count; i++ {
+		queue.Enqueue(rand.Int())
+	}
+
+	prev := math.MinInt
+	for i := 0; i < count; i++ {
+		value := queue.Dequeue()
+		assert.True(t, prev <= value, "Expected dequeue elements are ascending")
+		prev = value
+	}
+	assert.Equal(t, 0, queue.Size(), "Expected queue size to be 0")
+	assert.True(t, queue.IsEmpty(), "Expected queue to be empty")
 }

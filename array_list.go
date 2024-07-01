@@ -193,6 +193,13 @@ func (a *ArrayList[E]) Pop() E {
 	return a.PopBack()
 }
 
+func (a *ArrayList[E]) Swap(i, j int) {
+	a.indexMustInRange(i)
+	a.indexMustInRange(j)
+
+	a.elements[i], a.elements[j] = a.elements[j], a.elements[i]
+}
+
 func (a *ArrayList[E]) indexMustInRange(index int) {
 	if !(index >= 0 && index < len(a.elements)) {
 		panic(ErrIndexOutOfBound)
