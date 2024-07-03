@@ -3,7 +3,7 @@ test:
 	go test -v -cover ./...
 
 cover.html:
-	go test -coverprofile cover.html
+	go test -coverprofile cover.html ./...
 	go tool cover -html=cover.html -o cover.html
 
 .PHONY: lint

@@ -1,20 +1,26 @@
-package main
+package heap
 
-import "container/heap"
+import (
+	"container/heap"
+	adt "goadt"
+	"goadt/fn"
+	"goadt/lists/arraylist"
+	"goadt/queues"
+)
 
-var _ (Queue[int]) = (*Heap[int])(nil)
+var _ (queues.Queue[int]) = (*Heap[int])(nil)
 
 type Heap[E any] struct {
-	compareFn CompareFn[E]
-	arrayList *ArrayList[E]
+	compareFn fn.CompareFn[E]
+	arrayList *arraylist.ArrayList[E]
 }
 
 func NewHeap[E any](
-	compareFn CompareFn[E],
-) Queue[E] {
+	compareFn fn.CompareFn[E],
+) queues.Queue[E] {
 	return &Heap[E]{
 		compareFn: compareFn,
-		arrayList: NewArrayList[E](nil),
+		arrayList: arraylist.NewArrayList[E](nil),
 	}
 }
 
@@ -31,7 +37,7 @@ func (h *Heap[E]) Dequeue() E {
 // Peek implements Queue.
 func (h *Heap[E]) Peek() E {
 	if h.IsEmpty() {
-		panic(ErrNoSuchElement)
+		panic(adt.ErrNoSuchElement)
 	}
 	return h.arrayList.At(0)
 }

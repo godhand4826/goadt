@@ -1,25 +1,31 @@
-package main
+package hashset
 
-var _ Set[string] = (*HashSet[string, string])(nil)
+import (
+	"goadt/fn"
+	"goadt/lists"
+	"goadt/sets"
+)
+
+var _ sets.Set[string] = (*HashSet[string, string])(nil)
 
 type HashSet[E any, H comparable] struct {
-	equalFn     EqualFn[E]
-	hashFn      HashFn[E, H]
-	listFactory List[E]
-	values      map[H]List[E]
+	equalFn     fn.EqualFn[E]
+	hashFn      fn.HashFn[E, H]
+	listFactory lists.List[E]
+	values      map[H]lists.List[E]
 	size        int
 }
 
 func NewHashSet[E any, H comparable](
-	equalFn EqualFn[E],
-	hashFn HashFn[E, H],
-	listFactory List[E],
+	equalFn fn.EqualFn[E],
+	hashFn fn.HashFn[E, H],
+	listFactory lists.List[E],
 ) *HashSet[E, H] {
 	return &HashSet[E, H]{
 		equalFn:     equalFn,
 		hashFn:      hashFn,
 		listFactory: listFactory,
-		values:      make(map[H]List[E]),
+		values:      make(map[H]lists.List[E]),
 	}
 }
 

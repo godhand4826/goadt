@@ -1,18 +1,27 @@
-package main
+package linkedlist
 
-var _ List[int] = (*LinkedList[int])(nil)
-var _ Stack[int] = (*LinkedList[int])(nil)
-var _ Queue[int] = (*LinkedList[int])(nil)
-var _ Deque[int] = (*LinkedList[int])(nil)
+import (
+	adt "goadt"
+	"goadt/deques"
+	"goadt/fn"
+	"goadt/lists"
+	"goadt/queues"
+	"goadt/stacks"
+)
+
+var _ lists.List[int] = (*LinkedList[int])(nil)
+var _ stacks.Stack[int] = (*LinkedList[int])(nil)
+var _ queues.Queue[int] = (*LinkedList[int])(nil)
+var _ deques.Deque[int] = (*LinkedList[int])(nil)
 
 // LinkedList Doubly-linked list.
 type LinkedList[E any] struct {
 	head    *linkedListNode[E] // dummy head will always exist
 	size    int
-	equalFn EqualFn[E]
+	equalFn fn.EqualFn[E]
 }
 
-func NewLinkedList[E any](equalFn EqualFn[E]) *LinkedList[E] {
+func NewLinkedList[E any](equalFn fn.EqualFn[E]) *LinkedList[E] {
 	return &LinkedList[E]{
 		head:    newLinkedListNode(*new(E)),
 		equalFn: equalFn,
@@ -36,7 +45,7 @@ func (l *LinkedList[E]) Clear() {
 }
 
 // NewList implements List.
-func (l *LinkedList[E]) NewList() List[E] {
+func (l *LinkedList[E]) NewList() lists.List[E] {
 	return NewLinkedList(l.equalFn)
 }
 
@@ -87,7 +96,7 @@ func (l *LinkedList[E]) RemoveAt(index int) E {
 }
 
 // Slice implements List.
-func (l *LinkedList[E]) Slice(start, end int) List[E] {
+func (l *LinkedList[E]) Slice(start, end int) lists.List[E] {
 	start = max(start, 0)
 	end = min(l.size, end)
 
@@ -157,7 +166,7 @@ func (l *LinkedList[E]) PushFront(element E) {
 // PushBack implements Deque.
 func (l *LinkedList[E]) PopBack() E {
 	if l.IsEmpty() {
-		panic(ErrNoSuchElement)
+		panic(adt.ErrNoSuchElement)
 	}
 
 	node := l.head.prev
@@ -171,7 +180,7 @@ func (l *LinkedList[E]) PopBack() E {
 // PopFront implements Deque.
 func (l *LinkedList[E]) PopFront() E {
 	if l.IsEmpty() {
-		panic(ErrNoSuchElement)
+		panic(adt.ErrNoSuchElement)
 	}
 
 	node := l.head.next
@@ -185,7 +194,7 @@ func (l *LinkedList[E]) PopFront() E {
 // Back implements Deque.
 func (l *LinkedList[E]) Back() E {
 	if l.IsEmpty() {
-		panic(ErrNoSuchElement)
+		panic(adt.ErrNoSuchElement)
 	}
 
 	return l.head.prev.value
@@ -194,7 +203,7 @@ func (l *LinkedList[E]) Back() E {
 // Front implements Deque.
 func (l *LinkedList[E]) Front() E {
 	if l.IsEmpty() {
-		panic(ErrNoSuchElement)
+		panic(adt.ErrNoSuchElement)
 	}
 
 	return l.head.next.value
@@ -255,7 +264,7 @@ func (l *LinkedList[E]) find(element E) (int, *linkedListNode[E]) {
 
 func (l *LinkedList[E]) indexMustInRange(index int) {
 	if !(index >= 0 && index < l.size) {
-		panic(ErrIndexOutOfBound)
+		panic(adt.ErrIndexOutOfBound)
 	}
 }
 

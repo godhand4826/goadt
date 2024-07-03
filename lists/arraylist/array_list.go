@@ -1,19 +1,27 @@
-package main
+package arraylist
 
-import "slices"
+import (
+	adt "goadt"
+	"goadt/deques"
+	"goadt/fn"
+	"goadt/lists"
+	"goadt/queues"
+	"goadt/stacks"
+	"slices"
+)
 
-var _ List[int] = (*ArrayList[int])(nil)
-var _ Stack[int] = (*ArrayList[int])(nil)
-var _ Queue[int] = (*ArrayList[int])(nil)
-var _ Deque[int] = (*ArrayList[int])(nil)
+var _ lists.List[int] = (*ArrayList[int])(nil)
+var _ stacks.Stack[int] = (*ArrayList[int])(nil)
+var _ queues.Queue[int] = (*ArrayList[int])(nil)
+var _ deques.Deque[int] = (*ArrayList[int])(nil)
 
 // ArrayList wrapper for golang slice.
 type ArrayList[E any] struct {
 	elements []E
-	equalFn  EqualFn[E]
+	equalFn  fn.EqualFn[E]
 }
 
-func NewArrayList[E any](equalFn EqualFn[E]) *ArrayList[E] {
+func NewArrayList[E any](equalFn fn.EqualFn[E]) *ArrayList[E] {
 	return &ArrayList[E]{
 		equalFn: equalFn,
 	}
@@ -35,7 +43,7 @@ func (a *ArrayList[E]) Clear() {
 }
 
 // NewList implements List.
-func (a *ArrayList[E]) NewList() List[E] {
+func (a *ArrayList[E]) NewList() lists.List[E] {
 	return NewArrayList(a.equalFn)
 }
 
@@ -79,7 +87,7 @@ func (a *ArrayList[E]) RemoveAt(index int) E {
 }
 
 // Slice implements List.
-func (a *ArrayList[E]) Slice(start, end int) List[E] {
+func (a *ArrayList[E]) Slice(start, end int) lists.List[E] {
 	start = max(start, 0)
 	end = min(len(a.elements), end)
 
@@ -127,7 +135,7 @@ func (a *ArrayList[E]) PushFront(element E) {
 // PushBack implements Deque.
 func (a *ArrayList[E]) PopBack() E {
 	if a.IsEmpty() {
-		panic(ErrNoSuchElement)
+		panic(adt.ErrNoSuchElement)
 	}
 	element := a.elements[len(a.elements)-1]
 	a.elements = a.elements[:len(a.elements)-1]
@@ -137,7 +145,7 @@ func (a *ArrayList[E]) PopBack() E {
 // PopFront implements Deque.
 func (a *ArrayList[E]) PopFront() E {
 	if a.IsEmpty() {
-		panic(ErrNoSuchElement)
+		panic(adt.ErrNoSuchElement)
 	}
 
 	element := a.elements[0]
@@ -148,7 +156,7 @@ func (a *ArrayList[E]) PopFront() E {
 // Back implements Deque.
 func (a *ArrayList[E]) Back() E {
 	if a.IsEmpty() {
-		panic(ErrNoSuchElement)
+		panic(adt.ErrNoSuchElement)
 	}
 
 	return a.elements[len(a.elements)-1]
@@ -157,7 +165,7 @@ func (a *ArrayList[E]) Back() E {
 // Front implements Deque.
 func (a *ArrayList[E]) Front() E {
 	if a.IsEmpty() {
-		panic(ErrNoSuchElement)
+		panic(adt.ErrNoSuchElement)
 	}
 
 	return a.elements[0]
@@ -202,6 +210,6 @@ func (a *ArrayList[E]) Swap(i, j int) {
 
 func (a *ArrayList[E]) indexMustInRange(index int) {
 	if !(index >= 0 && index < len(a.elements)) {
-		panic(ErrIndexOutOfBound)
+		panic(adt.ErrIndexOutOfBound)
 	}
 }

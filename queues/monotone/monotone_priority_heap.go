@@ -1,28 +1,35 @@
-package main
+package monotone
 
-var _ (Queue[int]) = (*monotonePriorityHeap[int])(nil)
-var _ (Stack[int]) = (*monotonePriorityHeap[int])(nil)
+import (
+	"goadt/fn"
+	"goadt/queues"
+	"goadt/queues/heap"
+	"goadt/stacks"
+)
+
+var _ (queues.Queue[int]) = (*monotonePriorityHeap[int])(nil)
+var _ (stacks.Stack[int]) = (*monotonePriorityHeap[int])(nil)
 
 type monotonePriorityHeap[E any] struct {
-	elements Queue[*PriorityItem[E]]
+	elements queues.Queue[*PriorityItem[E]]
 	priority int
 }
 
-func NewHeapQueue[E any]() Queue[E] {
-	return newMonotonePriorityHeap(On(Compare, func(item *PriorityItem[E]) int {
+func NewHeapQueue[E any]() queues.Queue[E] {
+	return newMonotonePriorityHeap(fn.On(fn.Compare, func(item *PriorityItem[E]) int {
 		return item.priority
 	}))
 }
 
-func NewHeapStack[E any]() Stack[E] {
-	return newMonotonePriorityHeap(On(Compare, func(item *PriorityItem[E]) int {
+func NewHeapStack[E any]() stacks.Stack[E] {
+	return newMonotonePriorityHeap(fn.On(fn.Compare, func(item *PriorityItem[E]) int {
 		return -item.priority
 	}))
 }
 
-func newMonotonePriorityHeap[E any](compareFn CompareFn[*PriorityItem[E]]) *monotonePriorityHeap[E] {
+func newMonotonePriorityHeap[E any](compareFn fn.CompareFn[*PriorityItem[E]]) *monotonePriorityHeap[E] {
 	return &monotonePriorityHeap[E]{
-		elements: NewHeap(compareFn),
+		elements: heap.NewHeap(compareFn),
 	}
 }
 
