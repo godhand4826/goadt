@@ -5,10 +5,10 @@ import (
 	"goadt/lists"
 )
 
-var _ (lists.ListFactory[int]) = LinkedListFactory[int]{}
+var _ (lists.Factory[int]) = Factory[int]{}
 
-type LinkedListFactory[E any] struct{}
+type Factory[E any] struct{}
 
-func (LinkedListFactory[E]) CreateList(equalFn fn.EqualFn[E]) lists.List[E] {
-	return NewLinkedList(equalFn)
+func (Factory[E]) CreateList(equalFn fn.EqualFn[E]) lists.List[E] {
+	return New(equalFn)
 }

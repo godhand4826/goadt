@@ -8,5 +8,5 @@ import (
 )
 
 func TestHeap(t *testing.T) {
-	queues.TestMinQueue(t, heap.NewHeap(fn.Compare[int]))
+	queues.TestMinQueue(t, heap.New(fn.Compare[int]))
 }

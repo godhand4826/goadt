@@ -11,15 +11,15 @@ var _ sets.Set[string] = (*HashSet[string, string])(nil)
 type HashSet[E any, H comparable] struct {
 	equalFn     fn.EqualFn[E]
 	hashFn      fn.HashFn[E, H]
-	listFactory lists.ListFactory[E]
+	listFactory lists.Factory[E]
 	values      map[H]lists.List[E]
 	size        int
 }
 
-func NewHashSet[E any, H comparable](
+func New[E any, H comparable](
 	equalFn fn.EqualFn[E],
 	hashFn fn.HashFn[E, H],
-	listFactory lists.ListFactory[E],
+	listFactory lists.Factory[E],
 ) *HashSet[E, H] {
 	return &HashSet[E, H]{
 		equalFn:     equalFn,

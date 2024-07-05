@@ -21,7 +21,7 @@ type LinkedList[E any] struct {
 	equalFn fn.EqualFn[E]
 }
 
-func NewLinkedList[E any](equalFn fn.EqualFn[E]) *LinkedList[E] {
+func New[E any](equalFn fn.EqualFn[E]) *LinkedList[E] {
 	return &LinkedList[E]{
 		head:    newLinkedListNode(*new(E)),
 		equalFn: equalFn,
@@ -105,7 +105,7 @@ func (l *LinkedList[E]) Slice(start, end int) lists.List[E] {
 	start = max(start, 0)
 	end = min(l.size, end)
 
-	list := NewLinkedList(l.equalFn)
+	list := New(l.equalFn)
 	node := l.head.next
 	for i := 0; i < end; i++ {
 		if i >= start {

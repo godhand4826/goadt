@@ -10,6 +10,6 @@ import (
 )
 
 func TestStackAsLIFOQueue(t *testing.T) {
-	queues.TestQueueIsLIFO(t, stackqueue.NewStackQueue(arraylist.NewArrayList(fn.Equals[int])))
-	queues.TestQueueIsLIFO(t, stackqueue.NewStackQueue(linkedlist.NewLinkedList(fn.Equals[int])))
+	queues.TestQueueIsLIFO(t, stackqueue.New(arraylist.New(fn.Equals[int])))
+	queues.TestQueueIsLIFO(t, stackqueue.New(linkedlist.New(fn.Equals[int])))
 }

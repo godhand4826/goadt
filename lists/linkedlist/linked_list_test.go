@@ -11,17 +11,17 @@ import (
 )
 
 func TestLinkedListAsQueue(t *testing.T) {
-	queues.TestQueueIsFIFO(t, linkedlist.NewLinkedList(fn.Equals[int]))
+	queues.TestQueueIsFIFO(t, linkedlist.New(fn.Equals[int]))
 }
 
 func TestLinkedListAsStack(t *testing.T) {
-	stacks.TestStack(t, linkedlist.NewLinkedList(fn.Equals[int]))
+	stacks.TestStack(t, linkedlist.New(fn.Equals[int]))
 }
 
 func TestLinkedListAsDeque(t *testing.T) {
-	deques.TestDequeIsFIFO(t, linkedlist.NewLinkedList(fn.Equals[int]))
+	deques.TestDequeIsFIFO(t, linkedlist.New(fn.Equals[int]))
 }
 
 func TestLinkedListAsList(t *testing.T) {
-	lists.TestList(t, linkedlist.NewLinkedList(fn.Equals[int]))
+	lists.TestList(t, linkedlist.New(fn.Equals[int]))
 }

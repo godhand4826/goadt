@@ -1,8 +1,9 @@
+// nolint: lll
 package lists
 
 import "goadt/fn"
 
-type ListFactory[E any] interface {
+type Factory[E any] interface {
 	CreateList(fn.EqualFn[E]) List[E]
 }
 

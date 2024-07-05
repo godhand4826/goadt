@@ -121,7 +121,7 @@ func TestMinQueue(t *testing.T, queue Queue[int]) {
 	queue.Clear()
 	const count = 1000
 	for i := 0; i < count; i++ {
-		queue.Enqueue(rand.Int())
+		queue.Enqueue(rand.Int()) //nolint: gosec
 	}
 
 	prev := math.MinInt

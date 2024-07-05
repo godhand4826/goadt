@@ -8,9 +8,9 @@ import (
 )
 
 func TestHeapQueue(t *testing.T) {
-	queues.TestQueueIsFIFO(t, monotone.NewHeapQueue[int]())
+	queues.TestQueueIsFIFO(t, monotone.NewQueue[int]())
 }
 
 func TestHeapStack(t *testing.T) {
-	stacks.TestStack(t, monotone.NewHeapStack[int]())
+	stacks.TestStack(t, monotone.NewStack[int]())
 }

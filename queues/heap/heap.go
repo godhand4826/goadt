@@ -15,12 +15,12 @@ type Heap[E any] struct {
 	arrayList *arraylist.ArrayList[E]
 }
 
-func NewHeap[E any](
+func New[E any](
 	compareFn fn.CompareFn[E],
 ) queues.Queue[E] {
 	return &Heap[E]{
 		compareFn: compareFn,
-		arrayList: arraylist.NewArrayList[E](nil),
+		arrayList: arraylist.New[E](nil),
 	}
 }
 

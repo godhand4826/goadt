@@ -15,13 +15,13 @@ type monotonePriorityHeap[E any] struct {
 	priority int
 }
 
-func NewHeapQueue[E any]() queues.Queue[E] {
+func NewQueue[E any]() queues.Queue[E] {
 	return newMonotonePriorityHeap(fn.On(fn.Compare, func(item *PriorityItem[E]) int {
 		return item.priority
 	}))
 }
 
-func NewHeapStack[E any]() stacks.Stack[E] {
+func NewStack[E any]() stacks.Stack[E] {
 	return newMonotonePriorityHeap(fn.On(fn.Compare, func(item *PriorityItem[E]) int {
 		return -item.priority
 	}))
@@ -29,7 +29,7 @@ func NewHeapStack[E any]() stacks.Stack[E] {
 
 func newMonotonePriorityHeap[E any](compareFn fn.CompareFn[*PriorityItem[E]]) *monotonePriorityHeap[E] {
 	return &monotonePriorityHeap[E]{
-		elements: heap.NewHeap(compareFn),
+		elements: heap.New(compareFn),
 	}
 }
 

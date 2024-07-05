@@ -21,7 +21,7 @@ type ArrayList[E any] struct {
 	equalFn  fn.EqualFn[E]
 }
 
-func NewArrayList[E any](equalFn fn.EqualFn[E]) *ArrayList[E] {
+func New[E any](equalFn fn.EqualFn[E]) *ArrayList[E] {
 	return &ArrayList[E]{
 		equalFn: equalFn,
 	}
@@ -94,7 +94,7 @@ func (a *ArrayList[E]) Slice(start, end int) lists.List[E] {
 	start = max(start, 0)
 	end = min(len(a.elements), end)
 
-	list := NewArrayList(a.equalFn)
+	list := New(a.equalFn)
 	if end-start <= 0 {
 		return list
 	}

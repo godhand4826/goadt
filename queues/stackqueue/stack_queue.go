@@ -12,7 +12,7 @@ type StackQueue[E any] struct {
 	stacks.Stack[E]
 }
 
-func NewStackQueue[E any](s stacks.Stack[E]) queues.Queue[E] {
+func New[E any](s stacks.Stack[E]) queues.Queue[E] {
 	return &StackQueue[E]{s}
 }
 

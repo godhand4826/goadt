@@ -2,7 +2,6 @@ package hashset_test
 
 import (
 	"goadt/fn"
-	"goadt/lists"
 	"goadt/lists/arraylist"
 	"goadt/sets"
 	"goadt/sets/hashset"
@@ -10,11 +9,15 @@ import (
 )
 
 func TestHashSet(t *testing.T) {
-	var listFactory lists.ListFactory[int] = arraylist.ArrayListFactory[int]{}
-	sets.TestSet(t, hashset.NewHashSet(fn.Equals, fn.Identity, listFactory))
+	sets.TestSet(t, hashset.New(
+		fn.Equals,
+		fn.Identity,
+		arraylist.Factory[int]{},
+	))
 
-	var modTwo = func(element int) int {
-		return element % 2
-	}
-	sets.TestSet(t, hashset.NewHashSet(fn.Equals, modTwo, listFactory))
+	sets.TestSet(t, hashset.New(
+		fn.Equals,
+		func(element int) int { return element % 2 },
+		arraylist.Factory[int]{},
+	))
 }
