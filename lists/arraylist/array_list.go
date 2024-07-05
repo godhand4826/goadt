@@ -42,11 +42,6 @@ func (a *ArrayList[E]) Clear() {
 	a.elements = nil
 }
 
-// NewList implements List.
-func (a *ArrayList[E]) NewList() lists.List[E] {
-	return NewArrayList(a.equalFn)
-}
-
 // Append implements List.
 func (a *ArrayList[E]) Append(element E) {
 	a.elements = append(a.elements, element)
@@ -84,6 +79,14 @@ func (a *ArrayList[E]) RemoveAt(index int) E {
 	value := a.elements[index]
 	a.elements = slices.Delete(a.elements, index, index+1)
 	return value
+}
+
+// Swap implement List.
+func (a *ArrayList[E]) Swap(i, j int) {
+	a.indexMustInRange(i)
+	a.indexMustInRange(j)
+
+	a.elements[i], a.elements[j] = a.elements[j], a.elements[i]
 }
 
 // Slice implements List.
@@ -199,13 +202,6 @@ func (a *ArrayList[E]) Push(element E) {
 // Pop implements Stack.
 func (a *ArrayList[E]) Pop() E {
 	return a.PopBack()
-}
-
-func (a *ArrayList[E]) Swap(i, j int) {
-	a.indexMustInRange(i)
-	a.indexMustInRange(j)
-
-	a.elements[i], a.elements[j] = a.elements[j], a.elements[i]
 }
 
 func (a *ArrayList[E]) indexMustInRange(index int) {

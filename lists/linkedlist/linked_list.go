@@ -44,11 +44,6 @@ func (l *LinkedList[E]) Clear() {
 	l.size = 0
 }
 
-// NewList implements List.
-func (l *LinkedList[E]) NewList() lists.List[E] {
-	return NewLinkedList(l.equalFn)
-}
-
 // Append implements List.
 func (l *LinkedList[E]) Append(element E) {
 	l.PushBack(element)
@@ -95,12 +90,22 @@ func (l *LinkedList[E]) RemoveAt(index int) E {
 	return value
 }
 
+// Swap implement List.
+func (l *LinkedList[E]) Swap(i, j int) {
+	l.indexMustInRange(i)
+	l.indexMustInRange(j)
+
+	n1 := l.at(i)
+	n2 := l.at(j)
+	n1.value, n2.value = n2.value, n1.value
+}
+
 // Slice implements List.
 func (l *LinkedList[E]) Slice(start, end int) lists.List[E] {
 	start = max(start, 0)
 	end = min(l.size, end)
 
-	list := l.NewList()
+	list := NewLinkedList(l.equalFn)
 	node := l.head.next
 	for i := 0; i < end; i++ {
 		if i >= start {

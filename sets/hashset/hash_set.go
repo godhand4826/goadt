@@ -11,7 +11,7 @@ var _ sets.Set[string] = (*HashSet[string, string])(nil)
 type HashSet[E any, H comparable] struct {
 	equalFn     fn.EqualFn[E]
 	hashFn      fn.HashFn[E, H]
-	listFactory lists.List[E]
+	listFactory lists.ListFactory[E]
 	values      map[H]lists.List[E]
 	size        int
 }
@@ -19,7 +19,7 @@ type HashSet[E any, H comparable] struct {
 func NewHashSet[E any, H comparable](
 	equalFn fn.EqualFn[E],
 	hashFn fn.HashFn[E, H],
-	listFactory lists.List[E],
+	listFactory lists.ListFactory[E],
 ) *HashSet[E, H] {
 	return &HashSet[E, H]{
 		equalFn:     equalFn,
@@ -51,7 +51,7 @@ func (h *HashSet[E, H]) Add(element E) {
 		list.Append(element)
 		h.size++
 	} else {
-		list := h.listFactory.NewList()
+		list := h.listFactory.CreateList(h.equalFn)
 		list.Append(element)
 		h.values[hash] = list
 		h.size++
