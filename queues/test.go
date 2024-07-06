@@ -117,6 +117,7 @@ func TestMinQueue(t *testing.T, queue Queue[int]) {
 
 	queue.Clear()
 	assert.Panics(t, func() { queue.Peek() }, "Expected peek to panic when queue is empty")
+	assert.Panics(t, func() { queue.Dequeue() }, "Expected dequeue to panic when queue is empty")
 
 	queue.Clear()
 	const count = 1000
