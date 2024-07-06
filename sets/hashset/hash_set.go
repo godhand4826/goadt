@@ -51,7 +51,7 @@ func (h *HashSet[E, H]) Add(element E) {
 		list.Append(element)
 		h.size++
 	} else {
-		list := h.listFactory.CreateList(h.equalFn)
+		list := h.listFactory(h.equalFn)
 		list.Append(element)
 		h.values[hash] = list
 		h.size++

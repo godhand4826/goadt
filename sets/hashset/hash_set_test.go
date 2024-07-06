@@ -12,12 +12,12 @@ func TestHashSet(t *testing.T) {
 	sets.TestSet(t, hashset.New(
 		fn.Equals,
 		fn.Identity,
-		arraylist.Factory[int]{},
+		arraylist.NewList[int],
 	))
 
 	sets.TestSet(t, hashset.New(
 		fn.Equals,
 		func(element int) int { return element % 2 },
-		arraylist.Factory[int]{},
+		arraylist.NewList[int],
 	))
 }

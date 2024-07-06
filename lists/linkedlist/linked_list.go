@@ -21,6 +21,10 @@ type LinkedList[E any] struct {
 	equalFn fn.EqualFn[E]
 }
 
+func NewList[E any](equalFn fn.EqualFn[E]) lists.List[E] {
+	return New(equalFn)
+}
+
 func New[E any](equalFn fn.EqualFn[E]) *LinkedList[E] {
 	return &LinkedList[E]{
 		head:    newLinkedListNode(*new(E)),

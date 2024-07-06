@@ -21,6 +21,10 @@ type ArrayList[E any] struct {
 	equalFn  fn.EqualFn[E]
 }
 
+func NewList[E any](equalFn fn.EqualFn[E]) lists.List[E] {
+	return New(equalFn)
+}
+
 func New[E any](equalFn fn.EqualFn[E]) *ArrayList[E] {
 	return &ArrayList[E]{
 		equalFn: equalFn,

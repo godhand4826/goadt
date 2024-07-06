@@ -3,9 +3,7 @@ package lists
 
 import "goadt/fn"
 
-type Factory[E any] interface {
-	CreateList(fn.EqualFn[E]) List[E]
-}
+type Factory[E any] func(fn.EqualFn[E]) List[E]
 
 // List is an abstraction of sequence of elements.
 type List[E any] interface {
