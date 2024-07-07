@@ -100,4 +100,12 @@ func TestList(t *testing.T, list List[int]) {
 
 	list.Clear()
 	assert.Panics(t, func() { list.At(0) }, "Expected at to panic when list is empty")
+
+	list.Append(1)
+	list.Append(2)
+	assert.Equal(t, 1, list.At(0))
+	assert.Equal(t, 2, list.At(1))
+	list.Swap(0, 1)
+	assert.Equal(t, 2, list.At(0))
+	assert.Equal(t, 1, list.At(1))
 }

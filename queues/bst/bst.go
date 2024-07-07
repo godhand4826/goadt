@@ -7,25 +7,25 @@ import (
 	"goadt/queues"
 )
 
-var _ queues.Queue[int] = (*Bst[int])(nil)
+var _ queues.Queue[int] = (*Queue[int])(nil)
 
-type Bst[E any] struct {
+type Queue[E any] struct {
 	tree *bst.Tree[E]
 }
 
-func New[E any](compareFn fn.CompareFn[E]) *Bst[E] {
-	return &Bst[E]{
+func New[E any](compareFn fn.CompareFn[E]) *Queue[E] {
+	return &Queue[E]{
 		tree: bst.New(compareFn),
 	}
 }
 
 // Enqueue implements queues.Queue.
-func (b *Bst[E]) Enqueue(element E) {
+func (b *Queue[E]) Enqueue(element E) {
 	b.tree.Insert(element)
 }
 
 // Dequeue implements queues.Queue.
-func (b *Bst[E]) Dequeue() E {
+func (b *Queue[E]) Dequeue() E {
 	if b.tree.IsEmpty() {
 		panic(adt.ErrNoSuchElement)
 	}
@@ -35,12 +35,12 @@ func (b *Bst[E]) Dequeue() E {
 }
 
 // IsEmpty implements queues.Queue.
-func (b *Bst[E]) IsEmpty() bool {
+func (b *Queue[E]) IsEmpty() bool {
 	return b.tree.IsEmpty()
 }
 
 // Peek implements queues.Queue.
-func (b *Bst[E]) Peek() E {
+func (b *Queue[E]) Peek() E {
 	if b.IsEmpty() {
 		panic(adt.ErrNoSuchElement)
 	}
@@ -48,11 +48,11 @@ func (b *Bst[E]) Peek() E {
 }
 
 // Size implements queues.Queue.
-func (b *Bst[E]) Size() int {
+func (b *Queue[E]) Size() int {
 	return b.tree.Size()
 }
 
 // Clear implements queues.Queue.
-func (b *Bst[E]) Clear() {
+func (b *Queue[E]) Clear() {
 	b.tree.Clear()
 }

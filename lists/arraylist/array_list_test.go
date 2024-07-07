@@ -23,5 +23,5 @@ func TestArrayListAsDeque(t *testing.T) {
 }
 
 func TestArrayListAsList(t *testing.T) {
-	lists.TestList(t, arraylist.New(fn.Equals[int]))
+	lists.TestList(t, arraylist.NewList(fn.Equals[int]))
 }

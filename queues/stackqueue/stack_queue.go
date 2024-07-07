@@ -5,25 +5,25 @@ import (
 	"goadt/stacks"
 )
 
-var _ (queues.Queue[int]) = (*StackQueue[int])(nil)
+var _ (queues.Queue[int]) = (*Queue[int])(nil)
 
-// StackQueue wraps a stack in to a LIFO queue.
-type StackQueue[E any] struct {
+// Queue wraps a stack in to a LIFO queue.
+type Queue[E any] struct {
 	stacks.Stack[E]
 }
 
 func New[E any](s stacks.Stack[E]) queues.Queue[E] {
-	return &StackQueue[E]{s}
+	return &Queue[E]{s}
 }
 
-func (s *StackQueue[E]) Enqueue(element E) {
+func (s *Queue[E]) Enqueue(element E) {
 	s.Push(element)
 }
 
-func (s *StackQueue[E]) Dequeue() E {
+func (s *Queue[E]) Dequeue() E {
 	return s.Pop()
 }
 
-func (s *StackQueue[E]) Peek() E {
+func (s *Queue[E]) Peek() E {
 	return s.Top()
 }
