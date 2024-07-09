@@ -4,15 +4,16 @@ import (
 	adt "goadt"
 )
 
-// List Doubly-linked list.
+// List represents a doubly-linked list.
+// The internal implementation uses a circular structure with a dummy node.
 type List[E any] struct {
-	head *Node[E] // dummy head will always exist
-	size int
+	dummy *Node[E] // dummy node that always exist
+	size  int
 }
 
 func New[E any]() *List[E] {
 	list := &List[E]{}
-	list.head = newNode(list, *new(E))
+	list.dummy = newNode(list, *new(E))
 	return list
 }
 
@@ -20,18 +21,18 @@ func (l *List[E]) First() *Node[E] {
 	if l.IsEmpty() {
 		return nil
 	}
-	return l.head.next
+	return l.dummy.next
 }
 
 func (l *List[E]) Last() *Node[E] {
 	if l.IsEmpty() {
 		return nil
 	}
-	return l.head.prev
+	return l.dummy.prev
 }
 
 func (l *List[E]) Find(fn func(value E) bool) *Node[E] {
-	for node := l.head.next; node != l.head; node = node.next {
+	for node := l.dummy.next; node != l.dummy; node = node.next {
 		if fn(node.value) {
 			return node
 		}
@@ -40,7 +41,7 @@ func (l *List[E]) Find(fn func(value E) bool) *Node[E] {
 }
 
 func (l *List[E]) FindLast(fn func(value E) bool) *Node[E] {
-	for node := l.head.prev; node != l.head; node = node.prev {
+	for node := l.dummy.prev; node != l.dummy; node = node.prev {
 		if fn(node.value) {
 			return node
 		}
@@ -51,7 +52,7 @@ func (l *List[E]) FindLast(fn func(value E) bool) *Node[E] {
 func (l *List[E]) At(index int) *Node[E] {
 	l.indexMustInRange(index)
 
-	node := l.head.next
+	node := l.dummy.next
 	for i := 0; i < index; i++ {
 		node = node.next
 	}
@@ -59,11 +60,11 @@ func (l *List[E]) At(index int) *Node[E] {
 }
 
 func (l *List[E]) Append(element E) {
-	l.head.Prepend(element)
+	l.dummy.Prepend(element)
 }
 
 func (l *List[E]) Prepend(element E) {
-	l.head.Append(element)
+	l.dummy.Append(element)
 }
 
 func (l *List[E]) Size() int {
@@ -75,7 +76,7 @@ func (l *List[E]) IsEmpty() bool {
 }
 
 func (l *List[E]) Clear() {
-	l.head.Remove()
+	l.dummy.Remove()
 	l.size = 0
 }
 
@@ -112,14 +113,14 @@ func (n *Node[E]) SetValue(value E) {
 }
 
 func (n *Node[E]) Next() *Node[E] {
-	if n.next == n.list.head {
+	if n.next == n.list.dummy {
 		return nil
 	}
 	return n.next
 }
 
 func (n *Node[E]) Prev() *Node[E] {
-	if n.prev == n.list.head {
+	if n.prev == n.list.dummy {
 		return nil
 	}
 	return n.prev
