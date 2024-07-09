@@ -31,12 +31,19 @@ func (l *List[E]) Last() *Node[E] {
 }
 
 func (l *List[E]) Find(fn func(value E) bool) *Node[E] {
-	node := l.head.next
-	for i := 0; i < l.size; i++ {
+	for node := l.head.next; node != l.head; node = node.next {
 		if fn(node.value) {
 			return node
 		}
-		node = node.next
+	}
+	return nil
+}
+
+func (l *List[E]) FindLast(fn func(value E) bool) *Node[E] {
+	for node := l.head.prev; node != l.head; node = node.prev {
+		if fn(node.value) {
+			return node
+		}
 	}
 	return nil
 }
