@@ -4,7 +4,7 @@ import (
 	"container/heap"
 	adt "goadt"
 	"goadt/fn"
-	"goadt/lists/arraylist"
+	"goadt/lists/array"
 	"goadt/queues"
 )
 
@@ -12,7 +12,7 @@ var _ (queues.Queue[int]) = (*Heap[int])(nil)
 
 type Heap[E any] struct {
 	compareFn fn.CompareFn[E]
-	arrayList *arraylist.ArrayList[E]
+	arrayList *array.ArrayList[E]
 }
 
 func New[E any](
@@ -20,7 +20,7 @@ func New[E any](
 ) queues.Queue[E] {
 	return &Heap[E]{
 		compareFn: compareFn,
-		arrayList: arraylist.New[E](nil),
+		arrayList: array.New[E](nil),
 	}
 }
 
@@ -72,12 +72,12 @@ func (h *Heap[V]) Less(i int, j int) bool {
 
 // Pop implements heap.Interface.
 func (h *Heap[V]) Pop() any {
-	return h.arrayList.Pop()
+	return h.arrayList.RemoveAt(h.arrayList.Size() - 1)
 }
 
 // Push implements heap.Interface.
 func (h *Heap[V]) Push(x any) {
-	h.arrayList.Push(x.(V))
+	h.arrayList.Append(x.(V))
 }
 
 // Swap implements heap.Interface.
